@@ -32,11 +32,6 @@ variable ip_prefix_length {
   description = "IP gateway for the node"
 }
 
-variable ip_gateway {
-  type        = "string"
-  description = "Gateway of the node"
-}
-
 variable hostname {
   type        = "map"
   description = "Hostname of the node"
