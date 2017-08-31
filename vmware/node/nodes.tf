@@ -1,6 +1,6 @@
 resource "vsphere_virtual_machine" "node" {
   count         = "${var.instance_count}"
-  name          = "${lookup(var.hostname, count.index)}"
+  name          = "${var.hostname["${count.index}"]}"
   datacenter    = "${var.vmware_datacenter}"
   cluster       = "${var.vmware_cluster}"
   vcpu          = "${var.vm_vcpu}"
@@ -11,28 +11,26 @@ resource "vsphere_virtual_machine" "node" {
   dns_suffixes  = ["${var.dns_suffixes}"]
 
   network_interface {
-    label               = "${lookup(var.vm_network_label, count.index)}"
-    ipv4_address        = "${lookup(var.ip_address, count.index)}"
-    ipv4_prefix_length  = "${lookup(var.ip_prefix_length, count.index)}"
-    ipv4_gateway        = "${lookup(var.ip_gateway, count.index)}"
+    label               = "${var.vm_network_label}"
+    ipv4_address        = "${var.ip_address}"
+    ipv4_prefix_length  = "${var.ip_prefix_length}"
+    ipv4_gateway        = "${var.ip_gateway}"
   }
 
   disk {
-    datastore = "${var.vm_disk_datastore_cluster}/lookup(var.vm_disk_datastore, count.index)"
+    datastore = "${var.vm_disk_datastore_cluster}/${var.vm_disk_datastore}"
     template  = "${var.vm_disk_template_folder}/${var.vm_disk_template}"
     type      = "thin"
   }
 connection {
     type        = "ssh"
-    user        = "root"
+    user        = "salt"
 }
 
 provisioner "remote-exec" {
     inline = [
       "sudo systemctl enable salt-minion.service",
       "sudo systemctl start salt-minion.service",
-      "sudo systemctl enable httpd.service",
-      "sudo systemctl start httpd.service",
     ]
   }
 

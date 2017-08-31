@@ -79,7 +79,7 @@ variable vm_disk_datastore_cluster {
 
 variable vm_disk_template {
   type        = "string"
-  description = "Disk template to use for cloning CentOS Linux"
+  description = "Disk template to use for cloning"
 }
 
 variable vm_disk_template_folder {
