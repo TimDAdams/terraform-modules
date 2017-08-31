@@ -11,14 +11,14 @@ resource "vsphere_virtual_machine" "node" {
   dns_suffixes  = ["${var.dns_suffixes}"]
 
   network_interface {
-    label               = "${lookup(count.index, var.vm_network_label)}"
-    ipv4_address        = "${lookup(count.index, var.ip_address)}"
-    ipv4_prefix_length  = "${lookup(count.index, var.ip_prefix_length)}"
-    ipv4_gw             = "${lookup(count.index, var.ip_gateway)}"
+    label               = "${lookup(var.vm_network_label, count.index)}"
+    ipv4_address        = "${lookup(var.ip_address, count.index)}"
+    ipv4_prefix_length  = "${lookup(var.ip_prefix_length, count.index)}"
+    ipv4_gw             = "${lookup(var.ip_gateway, count.index)}"
   }
 
   disk {
-    datastore = "${var.vm_disk_datastore_cluster}/lookup(count.index, var.vm_disk_datastore)"
+    datastore = "${var.vm_disk_datastore_cluster}/lookup(var.vm_disk_datastore, count.index)"
     template  = "${var.vm_disk_template_folder}/${var.vm_disk_template}"
     type      = "thin"
   }
