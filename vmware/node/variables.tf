@@ -7,7 +7,7 @@ variable "base_domain" {
   type = "string"
 }
 
-variable dns_server {
+variable dns_servers {
   type        = "list"
   description = "DNS Servers of the VMs"
 }
@@ -17,7 +17,7 @@ variable dns_suffixes {
   description = "List of DNS suffixes to be used for DNS search order"
 }
 
-variable ipv_address {
+variable ip_address {
   type        = "map"
   description = "IP Address of the node"
 }
@@ -32,7 +32,7 @@ variable ip_prefix_length {
   description = "IP gateway for the node"
 }
 
-variable gateway {
+variable ip_gateway {
   type        = "string"
   description = "Gateway of the node"
 }
@@ -101,12 +101,4 @@ variable "private_key" {
   type        = "string"
   description = "SSH private key file in .pem format corresponding to vmware_ssh_authorized_key. If not provided, SSH agent will be used."
   default     = ""
-}
-
-variable "image_re" {
-  description = <<EOF
-(internal) Regular expression used to extract repo and tag components from image strings
-EOF
-
-  type = "string"
 }
