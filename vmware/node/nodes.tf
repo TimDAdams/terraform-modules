@@ -1,6 +1,6 @@
 resource "vsphere_virtual_machine" "node" {
   count         = "${var.instance_count}"
-  name          = "${lookup(count.index, var.hostname)}"
+  name          = "${lookup(var.hostname, count.index)}"
   datacenter    = "${var.vmware_datacenter}"
   cluster       = "${var.vmware_cluster}"
   vcpu          = "${var.vm_vcpu}"
@@ -14,7 +14,7 @@ resource "vsphere_virtual_machine" "node" {
     label               = "${lookup(var.vm_network_label, count.index)}"
     ipv4_address        = "${lookup(var.ip_address, count.index)}"
     ipv4_prefix_length  = "${lookup(var.ip_prefix_length, count.index)}"
-    ipv4_gw             = "${lookup(var.ip_gateway, count.index)}"
+    ipv4_gateway        = "${lookup(var.ip_gateway, count.index)}"
   }
 
   disk {
